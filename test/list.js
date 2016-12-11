@@ -42,7 +42,7 @@ describe('LIST command', function() {
       listing.should.have.lengthOf(1);
       var lsLongRgx = [
         /($# file modes: ___|)[d-]([r-][w-][x-]){3}/,
-        /($# ?¿?¿? inodes?: |)\d+/,
+        /($# ?ï¿½?ï¿½? inodes?: |)\d+/,
         /($# owner name: ___|)\S+/,
         /($# owner group: __|)\S+/,
         /($# size in bytes: |)\d+/,
@@ -76,6 +76,13 @@ describe('LIST command', function() {
       listing.should.have.lengthOf(1);
       listing[0].should.startWith('d');
       listing[0].should.endWith(' local');
+      done();
+    });
+  });
+
+  it('LIST should reply 450 on non existing folder', function(done) {
+    client.list('/nonexistingfolder', function(error, listing) {
+      error.code.should.eql(450);
       done();
     });
   });
